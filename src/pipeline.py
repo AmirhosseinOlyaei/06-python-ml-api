@@ -8,7 +8,8 @@ from typing import Any
 
 import structlog
 import torch
-from transformers import pipeline as hf_pipeline, Pipeline
+from transformers import Pipeline
+from transformers import pipeline as hf_pipeline
 
 from .models import Sentiment, SentimentScore, Settings
 

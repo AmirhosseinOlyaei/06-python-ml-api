@@ -3,6 +3,7 @@
 **Feature:** End-to-end async sentiment analysis pipeline — synchronous inference, batch inference, and an async fire-and-poll job queue, all backed by a HuggingFace transformer model served without blocking the event loop.
 
 ## Stack
+
 - Python 3.12+
 - FastAPI 0.115 + Uvicorn (ASGI)
 - Pydantic v2 + `pydantic-settings` (env-driven config)
@@ -11,6 +12,7 @@
 - `ThreadPoolExecutor` — CPU-bound inference off the event loop
 
 ## Architecture
+
 ```
 src/
   models.py    ← Pydantic v2 request/response schemas + Settings (env-configurable)
@@ -27,6 +29,7 @@ src/
 ```
 
 ## Install & run
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -36,15 +39,16 @@ python -m src.main
 # → http://localhost:8000/docs  (Swagger UI)
 ```
 
-## Configuration (env vars with ML_API_ prefix)
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `ML_API_MODEL_NAME` | `distilbert-base-uncased-finetuned-sst-2-english` | HF model id |
-| `ML_API_DEVICE` | `cpu` | `cpu` or `cuda` |
-| `ML_API_MAX_BATCH_SIZE` | `32` | Max texts per batch request |
-| `ML_API_WORKER_CONCURRENCY` | `4` | Thread pool size |
-| `ML_API_QUEUE_MAXSIZE` | `1000` | Max async jobs in memory |
-| `ML_API_LOG_LEVEL` | `INFO` | Logging verbosity |
+## Configuration (env vars with ML*API* prefix)
+
+| Variable                    | Default                                           | Description                 |
+| --------------------------- | ------------------------------------------------- | --------------------------- |
+| `ML_API_MODEL_NAME`         | `distilbert-base-uncased-finetuned-sst-2-english` | HF model id                 |
+| `ML_API_DEVICE`             | `cpu`                                             | `cpu` or `cuda`             |
+| `ML_API_MAX_BATCH_SIZE`     | `32`                                              | Max texts per batch request |
+| `ML_API_WORKER_CONCURRENCY` | `4`                                               | Thread pool size            |
+| `ML_API_QUEUE_MAXSIZE`      | `1000`                                            | Max async jobs in memory    |
+| `ML_API_LOG_LEVEL`          | `INFO`                                            | Logging verbosity           |
 
 ## API examples
 
@@ -72,6 +76,7 @@ curl http://localhost:8000/health
 ```
 
 ## Key design decisions
+
 - **Lazy model loading** — model loads on first request, not at startup, protected by `asyncio.Lock` against thundering-herd duplicate loads
 - **Event loop preservation** — `run_in_executor(ThreadPoolExecutor)` ensures the HF pipeline's CPU/GPU work never blocks the asyncio loop
 - **Pydantic v2 validators** — `@field_validator` strips whitespace; annotated `Field(min_length, max_length)` enforces invariants at the boundary

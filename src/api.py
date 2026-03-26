@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime, timezone
 
 import structlog
-from fastapi import FastAPI, HTTPException, BackgroundTasks, Request, status
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Request, status
 from fastapi.responses import JSONResponse
 
 from .models import (
