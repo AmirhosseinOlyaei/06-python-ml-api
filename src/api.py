@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 
 import structlog
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 
 from .models import (
     AsyncJobResponse,
@@ -152,7 +152,7 @@ def create_app(settings: Settings) -> FastAPI:
             raise HTTPException(status_code=404, detail=f"Job {job_id} not found")
         return job
 
-    @app.delete("/v1/sentiment/async/{job_id}", status_code=204, tags=["async"])
+    @app.delete("/v1/sentiment/async/{job_id}", status_code=204, response_model=None, response_class=Response, tags=["async"])
     async def delete_async_job(job_id: str) -> None:
         if job_id not in job_store:
             raise HTTPException(status_code=404, detail=f"Job {job_id} not found")

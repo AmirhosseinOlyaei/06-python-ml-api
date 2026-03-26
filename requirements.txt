@@ -3,8 +3,8 @@ uvicorn[standard]==0.34.0
 pydantic==2.10.4
 pydantic-settings==2.7.0
 transformers==4.47.1
-torch==2.5.1
-numpy==2.2.1
+torch==2.2.2
+numpy==1.26.4
 structlog==24.4.0
 httpx==0.28.1
 anyio==4.7.0
