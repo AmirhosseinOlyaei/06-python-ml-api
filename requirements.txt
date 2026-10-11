@@ -2,8 +2,8 @@ fastapi==0.115.6
 uvicorn[standard]==0.34.0
 pydantic==2.10.4
 pydantic-settings==2.7.0
-transformers==4.47.1
-torch==2.2.2
+transformers==5.10.1
+torch==2.13.0
 numpy==1.26.4
 structlog==24.4.0
 httpx==0.28.1
